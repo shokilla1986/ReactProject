@@ -1,14 +1,38 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { MessageList, ChatList, Header } from "./components";
+import { indexStyles } from "./index-styles";
+import "./style.css";
 
-const myName = "Dmitiy";
-const message = "Вы хорошо выглядите!!";
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#008600",
+    },
+  },
+});
+
+const App = () => {
+  const styles = indexStyles();
+  return (
+    <>
+      <Header />
+      <div className={styles.wrapper}>
+        <ChatList />
+        <MessageList />
+      </div>
+    </>
+  );
+};
+
+// const styles = indexStyles();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App name={myName} message={message} />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
