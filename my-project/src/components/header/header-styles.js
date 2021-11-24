@@ -6,6 +6,18 @@ export const headerStyles = makeStyles(() => {
       width: "100%",
       height: "50px",
       backgroundColor: "grey",
+      alignItems: "center",
+      display: "flex",
+
+      "& a": {
+        color: "white",
+        marginRight: "50px",
+        textDecoration: "none",
+      },
     },
+    // header a: {
+    //   color: "white",
+    //   alignItems: "center",
+    // },
   };
 });
