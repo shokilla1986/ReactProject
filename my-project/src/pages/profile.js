@@ -1,7 +1,9 @@
+import { ProfileComp } from "../components";
+
 export const ProfilePage = () => {
   return (
-    <div>
-      <h1>ProfilePage</h1>
+    <div className="wrapper">
+      <ProfileComp />
     </div>
   );
 };
