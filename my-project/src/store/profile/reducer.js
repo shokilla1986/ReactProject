@@ -1,6 +1,12 @@
-import { UPDATE_PROFILE } from "./types";
+import { UPDATE_PROFILE, TOOGLE_VISIBLE_PROFILE } from "./types";
 
-const initialState = { name: null, surname: null, age: null, profession: null };
+const initialState = {
+  name: null,
+  surname: null,
+  age: null,
+  profession: null,
+  phone: null,
+};
 
 export const profileReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -9,6 +15,10 @@ export const profileReducer = (state = initialState, action) => {
         ...state,
         ...action.payload,
       };
+
+    case TOOGLE_VISIBLE_PROFILE: {
+      return { ...state, isVisibleProfile: !state.isVisibleProfile };
+    }
 
     default:
       return state;

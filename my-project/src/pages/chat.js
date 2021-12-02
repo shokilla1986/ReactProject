@@ -1,9 +1,14 @@
 import { App, MessageList, ChatList } from "../components";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { conversationsSelector } from "../store/conversations";
+import { useSelector } from "react-redux";
 
 export const ChatPage = () => {
   const navigate = useNavigate();
+  const didMount = useRef(false);
+
+  const conversation = useSelector(conversationsSelector);
 
   useEffect(() => {
     const listener = ({ code }) => {
@@ -15,6 +20,14 @@ export const ChatPage = () => {
 
     return () => document.removeEventListener("keydown", listener);
   }, [navigate]);
+
+  useEffect(() => {
+    if (didMount.current) {
+      navigate("/chat");
+    } else {
+      didMount.current = true;
+    }
+  }, [conversation]);
 
   return (
     // <App chats={<ChatList />} messages={<MessageList />} />
