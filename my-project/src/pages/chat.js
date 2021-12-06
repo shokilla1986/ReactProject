@@ -27,7 +27,7 @@ export const ChatPage = () => {
     } else {
       didMount.current = true;
     }
-  }, [conversation]);
+  }, []);
 
   return (
     // <App chats={<ChatList />} messages={<MessageList />} />
