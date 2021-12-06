@@ -4,7 +4,7 @@ export const ChatListStyles = makeStyles(() => {
   return {
     wrapper: {
       width: "30%",
-      height: "100%",
+      height: "96%",
       backgroundColor: "whitesmoke",
     },
 

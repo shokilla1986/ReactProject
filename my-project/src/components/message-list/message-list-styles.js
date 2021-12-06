@@ -9,16 +9,17 @@ export const useStyles = makeStyles((ctx) => {
     },
     content: {
       boxSizing: "border-box",
-      minHeight: "100%",
-      paddingBottom: "90px",
+      height: "90%",
+      overflowY: "scroll",
+      overflowX: "hidden",
+      paddingRight: "10px",
     },
 
     input: {
       color: "#9a9fa1",
       padding: "10px 15px",
       fontSize: "15px",
-      height: "80px",
-      marginTop: "-80px",
+      // height: "80px",
       width: "75%",
     },
     icon: {

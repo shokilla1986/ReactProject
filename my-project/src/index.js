@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
-import { MessageList, ChatList, Header } from "./components";
-import { indexStyles } from "./index-styles";
+import { ChatPage, ProfilePage } from "./pages";
+import { Header } from "./components";
+
 import "./style.css";
 
 const theme = createTheme({
@@ -13,25 +15,17 @@ const theme = createTheme({
   },
 });
 
-const App = () => {
-  const styles = indexStyles();
-  return (
-    <>
-      <Header />
-      <div className={styles.wrapper}>
-        <ChatList />
-        <MessageList />
-      </div>
-    </>
-  );
-};
-
-// const styles = indexStyles();
-
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<h1>Home Page</h1>} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/chat/*" element={<ChatPage />} />
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

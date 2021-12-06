@@ -1,33 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
-
+import { useParams } from "react-router-dom";
 import { Input, InputAdornment } from "@mui/material";
 import { Send } from "@mui/icons-material";
 import { useStyles } from "./message-list-styles";
 import { Message } from "./message";
-// import styles from "./message-list.module.css";
 
 export const MessageList = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState({});
   const [value, setValue] = useState("");
-
+  const { roomId } = useParams();
   const ref = useRef(null);
   const refWrapper = useRef(null);
   const styles = useStyles();
 
   useEffect(() => {
+    const roomMessages = messages[roomId] || [];
     let timerId = null;
-    const lastMessages = messages[messages.length - 1];
-    if (messages.length && lastMessages.author !== "Bot") {
+    const lastMessages = roomMessages[roomMessages.length - 1];
+    if (roomMessages.length && lastMessages.author !== "Bot") {
       timerId = setTimeout(() => {
-        setMessages([
+        setMessages({
           ...messages,
-          { author: "Bot", message: "hello from bot" },
-        ]);
-      }, 2000);
+          [roomId]: [
+            ...(messages[roomId] || []),
+            { author: "Bot", message: "hello from bot", id: new Date() },
+          ],
+        });
+      }, 500);
     }
 
     return () => clearInterval(timerId);
-  }, [messages]);
+  }, [messages, roomId]);
 
   useEffect(() => {
     ref.current?.focus();
@@ -41,10 +44,13 @@ export const MessageList = () => {
 
   const sendMessage = () => {
     if (value) {
-      setMessages([
+      setMessages({
         ...messages,
-        { author: "User", message: value, id: new Date() },
-      ]);
+        [roomId]: [
+          ...(messages[roomId] || []),
+          { author: "User", message: value, id: new Date() },
+        ],
+      });
 
       setValue("");
     }
@@ -56,10 +62,12 @@ export const MessageList = () => {
     }
   };
 
+  const roomMessages = messages[roomId] || [];
+
   return (
     <div className={styles.wrapper}>
       <div ref={refWrapper} className={styles.content}>
-        {messages.map((message, id) => (
+        {roomMessages.map((message, id) => (
           <Message message={message} key={id} />
         ))}
 
