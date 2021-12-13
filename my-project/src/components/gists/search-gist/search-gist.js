@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { searchGistsByUserName, gistsSelector } from "../../../store/gists";
 
@@ -7,25 +7,27 @@ export const SearchGists = () => {
     useSelector(gistsSelector);
 
   const dispatch = useDispatch();
-  //   let { name, setName } = useState(null);
-  //   let { value, setValue } = useState("");
-  //   const changeValue = (event) => {
-  //     setValue(event.target.value);
-  //   };
-  //   const searchName = (value) => {
-  //     setName((name) => (name = value));
-  //   };
+  let [name, setName] = useState("");
+  let [value, setValue] = useState("");
 
-  //   const pressInput = ({ code }) => {
-  //     if (code === "Enter") {
-  //       setName(value);
-  //     }
-  //   };
+  const changeValue = (event) => {
+    setValue(event.target.value);
+  };
+  const searchName = useCallback(() => {
+    setName(value);
+  }, [value]);
+
+  const pressInput = ({ code }) => {
+    if (code === "Enter") {
+      searchName();
+      setValue("");
+    }
+  };
 
   useEffect(() => {
-    dispatch(searchGistsByUserName("bogdanq"));
-    //  dispatch(searchGistsByUserName(name));
-  }, [dispatch]);
+    // dispatch(searchGistsByUserName("bogdanq"));
+    dispatch(searchGistsByUserName(name || "bogdanq"));
+  }, [dispatch, name]);
 
   if (gistsErrorSearch) {
     return <h1>gistsErrorSearch</h1>;
@@ -37,9 +39,9 @@ export const SearchGists = () => {
       <hr />
       <input
         placeholder="enter name..."
-        //   value={value}
-        //   onChange={changeValue}
-        //   onKeyPress={pressInput}
+        value={value}
+        onChange={changeValue}
+        onKeyPress={pressInput}
       />
       {gistsLoadingSearch ? (
         <h1>Loading...</h1>

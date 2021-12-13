@@ -1,13 +1,17 @@
 import { nanoid } from "nanoid";
-import { SEND_MESSAGE, DELETE_MESSAGE } from "./types";
+import {
+  SEND_MESSAGE,
+  DELETE_MESSAGE,
+  GET_MESSAGES_ERROR,
+  GET_MESSAGES_START,
+  GET_MESSAGES_SUCCESS,
+} from "./types";
 import { DELETE_CONVERSATION } from "../types";
 
 const initialState = {
-  messages: {
-    chat1: [
-      { date: new Date(), message: "Hello", author: "Bot", id: nanoid() },
-    ],
-  },
+  messages: {},
+  messagesLoading: false,
+  messagesError: null,
 };
 
 export const messagesReducer = (state = initialState, action) => {
@@ -33,17 +37,26 @@ export const messagesReducer = (state = initialState, action) => {
           ),
         },
       };
-    // case FORMAT_MESSAGE:
-    //   return {
-    //     ...state,
-    //     messages: {
-    //       ...state.messages,
-    //       [action.payload.roomId]: [
-    //         ...state.messages[action.payload.roomId],
-    //         { ...action.payload.message.value },
-    //       ],
-    //     },
-    //   };
+    case GET_MESSAGES_START:
+      return {
+        ...state,
+        messagesLoading: true,
+        messagesError: null,
+      };
+
+    case GET_MESSAGES_SUCCESS:
+      return {
+        ...state,
+        messagesLoading: false,
+        messages: action.payload,
+      };
+
+    case GET_MESSAGES_ERROR:
+      return {
+        ...state,
+        messagesLoading: false,
+        messagesError: action.payload,
+      };
 
     case DELETE_CONVERSATION:
       delete state.messages[action.payload];
@@ -51,4 +64,15 @@ export const messagesReducer = (state = initialState, action) => {
     default:
       return state;
   }
+  // case FORMAT_MESSAGE:
+  //   return {
+  //     ...state,
+  //     messages: {
+  //       ...state.messages,
+  //       [action.payload.roomId]: [
+  //         ...state.messages[action.payload.roomId],
+  //         { ...action.payload.message.value },
+  //       ],
+  //     },
+  //   };
 };

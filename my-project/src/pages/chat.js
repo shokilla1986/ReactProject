@@ -1,14 +1,17 @@
 import { App, MessageList, ChatList } from "../components";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import { conversationsSelector } from "../store/conversations";
-import { useSelector } from "react-redux";
+import { getConversationsFB } from "../store/conversations";
+import { getMessagesFB } from "../store/messages";
+
+import { useDispatch } from "react-redux";
 
 export const ChatPage = () => {
   const navigate = useNavigate();
   const didMount = useRef(false);
 
-  const conversation = useSelector(conversationsSelector);
+  // const conversation = useSelector(conversationsSelector);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const listener = ({ code }) => {
@@ -28,6 +31,11 @@ export const ChatPage = () => {
       didMount.current = true;
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(getConversationsFB());
+    dispatch(getMessagesFB());
+  }, [dispatch]);
 
   return (
     // <App chats={<ChatList />} messages={<MessageList />} />
