@@ -3,6 +3,9 @@ import {
   getMessagesStart,
   getMessagesError,
   getMessagesSuccess,
+  sendMessageStart,
+  sendMessageSuccess,
+  sendMessageError,
 } from "./action";
 import { handleChangeMessageValue } from "../conversations";
 
@@ -22,6 +25,27 @@ export const sendMessageWithBot =
       }, 500);
     }
   };
+export const sendMessageFB = (message, roomId) => async (dispatch, _, api) => {
+  try {
+    dispatch(sendMessageStart());
+    await api.sendMessageApi(roomId, message);
+
+    dispatch(sendMessageSuccess(roomId, message));
+    dispatch(handleChangeMessageValue("", roomId));
+    if (message.author !== "Bot") {
+      setTimeout(() => {
+        dispatch(
+          sendMessageFB(
+            { author: "Bot", message: "Hello bot from thunk to FB" },
+            roomId
+          )
+        );
+      }, 500);
+    }
+  } catch (error) {
+    dispatch(sendMessageError(error));
+  }
+};
 
 export const getMessagesFB = () => async (dispatch, _, api) => {
   const messages = {};

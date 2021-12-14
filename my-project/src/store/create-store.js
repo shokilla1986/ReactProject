@@ -4,7 +4,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import { profileReducer } from "./profile";
 import { getGistsApi, searchGistsByName } from "../api/gists";
 import { getConversationsApi } from "../api/conversations";
-import { getMessagesApi } from "../api/messages";
+import { getMessagesApi, sendMessageApi } from "../api/messages";
 import thunk from "redux-thunk";
 import { conversationsReducer } from "./conversations";
 import { messagesReducer } from "./messages";
@@ -25,7 +25,7 @@ const persistConfig = {
   whitelist: ["profile"],
 };
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   profile: profileReducer,
   conversations: conversationsReducer,
   messages: messagesReducer,
@@ -48,6 +48,7 @@ export const store = createStore(
         searchGistsByName,
         getConversationsApi,
         getMessagesApi,
+        sendMessageApi,
       })
     ),
     window.__REDUX_DEVTOOLS_EXTENSION__
