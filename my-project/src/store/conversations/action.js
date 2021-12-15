@@ -4,6 +4,9 @@ import {
   GET_CONVERSATION_START,
   GET_CONVERSATION_SUCCESS,
   GET_CONVERSATION_ERROR,
+  ADD_CONVERSATION_START,
+  ADD_CONVERSATION_SUCCESS,
+  ADD_CONVERSATION_ERROR,
 } from "./types";
 import { DELETE_CONVERSATION } from "../types";
 
@@ -33,5 +36,19 @@ export const getConversationsSuccess = (conversations) => ({
 
 export const getConversationsError = (error) => ({
   type: GET_CONVERSATION_ERROR,
+  payload: error,
+});
+
+export const addConversationsStart = () => ({
+  type: ADD_CONVERSATION_START,
+});
+
+export const addConversationsSuccess = (conversations) => ({
+  type: ADD_CONVERSATION_SUCCESS,
+  payload: conversations,
+});
+
+export const addConversationsError = (error) => ({
+  type: ADD_CONVERSATION_ERROR,
   payload: error,
 });

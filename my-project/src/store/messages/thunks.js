@@ -25,6 +25,7 @@ export const sendMessageWithBot =
       }, 500);
     }
   };
+
 export const sendMessageFB = (message, roomId) => async (dispatch, _, api) => {
   try {
     dispatch(sendMessageStart());

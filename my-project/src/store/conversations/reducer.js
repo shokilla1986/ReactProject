@@ -4,6 +4,9 @@ import {
   GET_CONVERSATION_START,
   GET_CONVERSATION_SUCCESS,
   GET_CONVERSATION_ERROR,
+  ADD_CONVERSATION_START,
+  ADD_CONVERSATION_SUCCESS,
+  ADD_CONVERSATION_ERROR,
 } from "./types";
 import { DELETE_CONVERSATION } from "../types";
 
@@ -11,13 +14,18 @@ const initialState = {
   conversations: [],
   conversationsLoading: false,
   conversationsError: null,
+
+  addConversationLoading: false,
+  addConversationError: null,
 };
 
 export const conversationsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case ADD_CONVERSATION_SUCCESS:
     case CREATE_CONVERSATION:
       return {
         ...state,
+        addConversationLoading: false,
         conversations: [
           ...state.conversations,
           { title: action.payload, value: "" },
@@ -60,6 +68,29 @@ export const conversationsReducer = (state = initialState, action) => {
         ...state,
         conversationsLoading: false,
         conversationsError: action.payload,
+      };
+    case ADD_CONVERSATION_START:
+      return {
+        ...state,
+        addConversationLoading: true,
+        addConversationError: null,
+      };
+
+    // case ADD_CONVERSATION_SUCCESS:
+    // return {
+    //   ...state,
+    //   addConversationLoading: false,
+    //   conversations: [
+    //     ...state.conversations,
+    //     { title: action.payload, value: "" },
+    //   ],
+    // };
+
+    case ADD_CONVERSATION_ERROR:
+      return {
+        ...state,
+        addConversationLoading: false,
+        addConversationError: action.payload,
       };
 
     default:

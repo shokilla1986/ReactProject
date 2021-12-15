@@ -6,6 +6,7 @@ import { Chat } from "./chat";
 import {
   conversationsSelector,
   createConversation,
+  addConversationFB,
 } from "../../store/conversations";
 
 export const ChatList = () => {
@@ -15,13 +16,14 @@ export const ChatList = () => {
 
   const dispatch = useDispatch();
 
-  const createChat = () => {
+  const addChat = () => {
     const chatName = prompt("Введите название чата");
     const isValidChat = !conversations.find(
       (conversation) => conversation.title === chatName
     );
     if (chatName && isValidChat) {
-      dispatch(createConversation(chatName));
+      // dispatch(createConversation(chatName));
+      dispatch(addConversationFB(chatName));
     } else {
       alert("Такой чат уже существует! Выберите другое название");
     }
@@ -39,7 +41,7 @@ export const ChatList = () => {
         </Link>
       ))}
 
-      <button onClick={createChat}>createChat</button>
+      <button onClick={addChat}>addChat</button>
     </List>
   );
 };
