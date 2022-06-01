@@ -3,6 +3,8 @@ import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer } from "redux-persist";
 import { profileReducer } from "./profile";
 import { getGistsApi, searchGistsByName } from "../api/gists";
+import { getConversationsApi } from "../api/conversations";
+import { getMessagesApi } from "../api/messages";
 import thunk from "redux-thunk";
 import { conversationsReducer } from "./conversations";
 import { messagesReducer } from "./messages";
@@ -41,7 +43,12 @@ export const store = createStore(
       // formatUserMessage,
       // botSendMessage,
       logger,
-      thunk.withExtraArgument({ getGistsApi, searchGistsByName })
+      thunk.withExtraArgument({
+        getGistsApi,
+        searchGistsByName,
+        getConversationsApi,
+        getMessagesApi,
+      })
     ),
     window.__REDUX_DEVTOOLS_EXTENSION__
       ? window.__REDUX_DEVTOOLS_EXTENSION__()

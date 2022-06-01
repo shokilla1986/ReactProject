@@ -1,4 +1,9 @@
-import { sendMessage } from "./action";
+import {
+  sendMessage,
+  getMessagesStart,
+  getMessagesError,
+  getMessagesSuccess,
+} from "./action";
 import { handleChangeMessageValue } from "../conversations";
 
 export const sendMessageWithBot =
@@ -17,3 +22,20 @@ export const sendMessageWithBot =
       }, 500);
     }
   };
+
+export const getMessagesFB = () => async (dispatch, _, api) => {
+  const messages = {};
+  try {
+    dispatch(getMessagesStart());
+
+    const snapshot = await api.getMessagesApi();
+
+    snapshot.forEach((snap) => {
+      messages[snap.key] = Object.values(snap.val());
+    });
+
+    dispatch(getMessagesSuccess(messages));
+  } catch (e) {
+    dispatch(getMessagesError(e));
+  }
+};

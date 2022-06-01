@@ -1,17 +1,16 @@
-import { CREATE_CONVERSATION, HANDLE_CHANGE_MESSAGE_VALUE } from "./types";
+import {
+  CREATE_CONVERSATION,
+  HANDLE_CHANGE_MESSAGE_VALUE,
+  GET_CONVERSATION_START,
+  GET_CONVERSATION_SUCCESS,
+  GET_CONVERSATION_ERROR,
+} from "./types";
 import { DELETE_CONVERSATION } from "../types";
 
 const initialState = {
-  conversations: [
-    {
-      title: "room1",
-      value: "",
-    },
-    {
-      title: "room2",
-      value: "",
-    },
-  ],
+  conversations: [],
+  conversationsLoading: false,
+  conversationsError: null,
 };
 
 export const conversationsReducer = (state = initialState, action) => {
@@ -41,6 +40,28 @@ export const conversationsReducer = (state = initialState, action) => {
             : conversation;
         }),
       };
+
+    case GET_CONVERSATION_START:
+      return {
+        ...state,
+        conversationsLoading: true,
+        conversationsError: null,
+      };
+
+    case GET_CONVERSATION_SUCCESS:
+      return {
+        ...state,
+        conversationsLoading: false,
+        conversations: action.payload,
+      };
+
+    case GET_CONVERSATION_ERROR:
+      return {
+        ...state,
+        conversationsLoading: false,
+        conversationsError: action.payload,
+      };
+
     default:
       return state;
   }
