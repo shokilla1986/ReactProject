@@ -5,11 +5,7 @@ import { Input, InputAdornment } from "@mui/material";
 import { Send } from "@mui/icons-material";
 import { useStyles } from "./message-list-styles";
 import { Message } from "./message";
-import {
-  messagesSelector,
-  // sendMessage,
-  sendMessageWithBot,
-} from "../../store/messages";
+import { messagesSelector, sendMessageFB } from "../../store/messages";
 import {
   conversationsSelector,
   messageValueSelector,
@@ -28,18 +24,11 @@ export const MessageList = () => {
 
   const dispatch = useDispatch();
 
-  const send = useCallback(
-    (author = "User", botMessage) => {
-      if (value || botMessage) {
-        // dispatch(sendMessage({ author, message: value || botMessage }, roomId));
-        dispatch(
-          sendMessageWithBot({ author, message: value || botMessage }, roomId)
-        );
-        // setValue("");
-      }
-    },
-    [value, roomId, dispatch]
-  );
+  const send = useCallback(() => {
+    if (value) {
+      dispatch(sendMessageFB({ author: "User", message: value }, roomId));
+    }
+  }, [value, roomId, dispatch]);
 
   useEffect(() => {
     ref.current?.focus();
@@ -77,8 +66,6 @@ export const MessageList = () => {
             roomId={roomId}
           />
         ))}
-
-        {/* <Button onClick={send}>send message</Button> */}
       </div>
 
       <div className={styles.input}>
