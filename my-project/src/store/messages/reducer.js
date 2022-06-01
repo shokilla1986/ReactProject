@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { SEND_MESSAGE, DELETE_MESSAGE, FORMAT_MESSAGE } from "./types";
+import { SEND_MESSAGE, DELETE_MESSAGE } from "./types";
 import { DELETE_CONVERSATION } from "../types";
 
 const initialState = {
@@ -33,17 +33,17 @@ export const messagesReducer = (state = initialState, action) => {
           ),
         },
       };
-    case FORMAT_MESSAGE:
-      return {
-        ...state,
-        messages: {
-          ...state.messages,
-          [action.payload.roomId]: [
-            ...state.messages[action.payload.roomId],
-            { ...action.payload.message.value },
-          ],
-        },
-      };
+    // case FORMAT_MESSAGE:
+    //   return {
+    //     ...state,
+    //     messages: {
+    //       ...state.messages,
+    //       [action.payload.roomId]: [
+    //         ...state.messages[action.payload.roomId],
+    //         { ...action.payload.message.value },
+    //       ],
+    //     },
+    //   };
 
     case DELETE_CONVERSATION:
       delete state.messages[action.payload];
